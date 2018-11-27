@@ -3,7 +3,7 @@
 //Linear Fit
 
 /* Changes I made (Lamonte)
-  - commented out transpose function in pseudocode representation, as I believe its function occurs in the decomposition, though we do still need to do crossproducts and subsequently need a multiply function.
+  - commented out copy of decomp function in pseudocode representation, though we do still need to do crossproducts and subsequently need a multiply function.
   - wrote out lup decomposition function
   - wrote out lup solve function
 */
@@ -17,7 +17,7 @@ using namespace std;
 
 vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>> b){
     //TODO function for multiplying vectors together
-        if(a[0].size() != b.size()) return null; //cannot be multiplied.
+        if(a[0].size() != b.size()) throw "cannot be multiplied.";
         else{
                 int m = b.size(); //max pointer value
                 int n = a.size(); // # result rows
@@ -47,21 +47,20 @@ vector<double> decomp( vector<vector<double>> &data)
     }
     for (int k = 0; k < n; k++)
     {
-        int kPrime, p = 0;
+        int kPrime, max = 0;
        
         for (int j = k; j < n; j++)
         {
-            if(fabs(data[i][k] > p))
+            if(fabs(data[j][k] > max))
             {
-                p = fabs(data[i][k]);
+                max = fabs(data[j][k]);
                 kPrime = j; 
             }
         }
 
-        if(p==0)
+        if(max==0)
         {
-            cout << "Error: singular matrix" << endl;
-            return (EXIT_FAILURE);
+            throw "Error: singular matrix"; 
         }
         
         swap(p[k], p[kPrime]);
