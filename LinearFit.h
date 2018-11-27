@@ -11,6 +11,23 @@
 
 vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>> b){
     //TODO function for multiplying vectors together
+        if(a[0].size() != b.size()) return null; //cannot be multiplied.
+        else{
+                int m = b.size(); //max pointer value
+                int n = a.size(); // # result rows
+                int p = b[0].size(); //# resut cols
+                vector<vector<double>> c(n, vector<double>(p, 0));
+                for(int i = 0; i < n; i++){
+                        for(int j = 0; j < p; j++){
+                                int sum = 0;
+                                for(int k = 0; k < m; k++){
+                                        sum += a[i][k] * b[k][j];
+                                }
+                                c[i][j] = sum;
+                        }
+                }
+                return c;
+        }
 }
 
 template<class T,class F>
