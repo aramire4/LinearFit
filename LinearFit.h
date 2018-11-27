@@ -7,22 +7,32 @@
 #include <stdio.h>
 #include <iostream>
 
+
+
+vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>> b){
+    //TODO function for multiplying vectors together
+}
+
 template<class T,class F>
 vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
     int num = data.size();
     int kprime = 0;
 
+    vector<double> fit;
+    for(int i = 0; i < num; i++) fit[i] = i;
+
     vector<vector<double>> matrix (num, vector<double>(num, 0));
+
     for(int i = 0; i < num; i++){
-        for(int k = 0; k < num; k++){
+        for(int k = 0; k < functions.size(); k++){
             //Should be the matrix of data called on the functions
             F func = functions[k];
-            matrix[i][k] = func(data[i]);
-            //TODO- should we call .x or .y on matrix
-            //or does func do it?
+            matrix[i][k] = func(data[i].x);
 
         }
     }
+    vector<vector<double>> transpose (num, vector<double>(num, 0));
+    //TODO need a function that multiplies matricies together for transpose
 
     
     for(int k = 1; k < num; k++){
@@ -34,6 +44,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
             }
         }
         if(p == 0) cout <<"singular matrix\n";
+        std::swap(fit[k], fit[kprime]);
         for(int i = 1; i < num; i++){
             std::swap(matrix[k][i], matrix[kprime][i]);
         }
