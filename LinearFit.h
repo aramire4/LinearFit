@@ -2,12 +2,18 @@
 //Pledged
 //Linear Fit
 
+/* Changes I made (Lamonte)
+  - commented out transpose function in pseudocode representation, as I believe its function occurs in the decomposition, though we do still need to do crossproducts and subsequently need a multiply function.
+  - wrote out lup decomposition function
+  - wrote out lup solve function
+*/
+
 #include <algorithm>
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
 
-
+using namespace std;
 
 vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>> b){
     //TODO function for multiplying vectors together
@@ -30,6 +36,92 @@ vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>>
         }
 }
 
+vector<double> decomp( vector<vector<double>> &data)
+{
+    vector<double> p;
+    double n;
+
+    for (int i = 0; i < n; i++)
+    {
+        p.push_back(i);   
+    }
+    for (int k = 0; k < n; k++)
+    {
+        int kPrime, p = 0;
+       
+        for (int j = k; j < n; j++)
+        {
+            if(fabs(data[i][k] > p))
+            {
+                p = fabs(data[i][k]);
+                kPrime = j; 
+            }
+        }
+
+        if(p==0)
+        {
+            cout << "Error: singular matrix" << endl;
+            return (EXIT_FAILURE);
+        }
+        
+        swap(p[k], p[kPrime]);
+        
+        for(int l = 0; l < n; l++)
+        {
+            swap(data[k][l], data[kPrime][l]);
+        }
+
+        for (int m = k+1; m < n; m++)
+        {
+            data[m][k] = (data[m][k])/(data[k][k]); //magic elves matrix math for filling in matrix
+            for (int i2 = k + 1; i2 < n; i2++) //undoes summation portion
+            {
+                data[m][i2] = (data[m][i2]) - ((data[m][k]) * data[k][i2]); //in place
+            }
+        }
+
+    }
+
+    return p; //return permutation matrix
+}
+
+//if we're solving a third order polynomial... x = [a,b,c] constant factors such that we're the
+//closest by using least squares 
+   
+//pi serves as representation of permutation matrix (same in decomp function ... ) 
+vector<double> solve(vector<vector<double>> &L, vector<vector<double>> &U, vector<double> p, vector<double> b)
+{
+    //"undoes" decomposition and factors in b vector
+    int n = L.size();
+    vector<double> y(n);
+    vector<double> x(n); //"let x be a ne vector of length n"
+    for (int i = 0; i < n; i++)
+    {
+        int sum = 0; //summation identity
+        for ( int j = 0; j < i ; j++) 
+        {
+            sum += (L[i][j] * y[j]);
+        }
+        
+        y[i] = b[p[i]] - sum; //recursive function in imperative format
+    }
+
+    for (int i = n-1; i >= 0; i--)
+    {
+        
+        int sum = 0; //summation  identity
+        for (int j = i+1; j < n; j++)
+        {
+            sum += ((U[i][j]) * x[j]);
+        }
+        
+        x[i] = (y[i] - sum) / U[i][i];
+    }
+   
+    return x;
+    
+}
+
 template<class T,class F>
 vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
     int num = data.size();
@@ -48,7 +140,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
 
         }
     }
-    vector<vector<double>> transpose (num, vector<double>(num, 0));
+    /*vector<vector<double>> transpose (num, vector<double>(num, 0));
     //TODO need a function that multiplies matricies together for transpose
 
     
@@ -73,7 +165,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
         }
     }
     //end of pseudocode
-
+*/
 }
 
 
