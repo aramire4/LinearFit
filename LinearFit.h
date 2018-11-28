@@ -1,6 +1,7 @@
 //Anthony Ramirez, Madision Cox, Lamonte Brooks
 //Pledged
 //Linear Fit
+//Group A
 
 /* Changes I made (Lamonte)
   - commented out copy of decomp function in pseudocode representation, though we do still need to do crossproducts and subsequently need a multiply function.
@@ -36,10 +37,21 @@ vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>>
         }
 }
 
-vector<double> decomp( vector<vector<double>> &data)
+vector<vector<double>> transpose(vector<vector<double>> a){
+    vector<vector<double>> ret;
+    for(int i = 0; i < a.size(); i++){
+        for(int j = 0; j < a[0].size(); j++){
+            ret[i][j] = a[j][i]
+        }
+    }
+    return ret;
+}
+
+vector<double> decomp(vector<vector<double>> &data)
 {
     vector<double> p;
-    double n;
+    //double n = sizeof(data)/ sizeof(data[0]);
+    double n = data.size();
 
     for (int i = 0; i < n; i++)
     {
@@ -90,6 +102,8 @@ vector<double> decomp( vector<vector<double>> &data)
 //pi serves as representation of permutation matrix (same in decomp function ... ) 
 vector<double> solve(vector<vector<double>> &L, vector<vector<double>> &U, vector<double> p, vector<double> b)
 {
+    //input: matrix1, matrix2, permutation matrix, product of transpose of matrix1 and array of ys
+
     //"undoes" decomposition and factors in b vector
     int n = L.size();
     vector<double> y(n);
@@ -139,7 +153,13 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
 
         }
     }
-    /*vector<vector<double>> transpose (num, vector<double>(num, 0));
+    
+    vector<vector<double>> t = transpose(matrix);
+    vector<vector<double>>multA = multiple(matrix, transpose);
+
+
+
+    /*
     //TODO need a function that multiplies matricies together for transpose
 
     
@@ -164,7 +184,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
         }
     }
     //end of pseudocode
-*/
+    */
 }
 
 
