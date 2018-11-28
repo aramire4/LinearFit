@@ -3,12 +3,6 @@
 //Linear Fit
 //Group A
 
-/* Changes I made (Lamonte)
-  - commented out copy of decomp function in pseudocode representation, though we do still need to do crossproducts and subsequently need a multiply function.
-  - wrote out lup decomposition function
-  - wrote out lup solve function
-*/
-
 #include <algorithm>
 #include <math.h>
 #include <stdio.h>
