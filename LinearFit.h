@@ -149,7 +149,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
     }
     
     vector<vector<double>> t = transpose(matrix);
-    vector<vector<double>>multA = multiply(matrix, transpose);
+    vector<vector<double>>multA = multiply(matrix, t);
 
 
 
