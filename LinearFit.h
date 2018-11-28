@@ -36,10 +36,10 @@ vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>>
         }
 }
 
-vector<double> decomp( vector<vector<double>> &data)
+vector<double> decomp(vector<vector<double>> &data)
 {
     vector<double> p;
-    double n;
+    double n = sizeof(data)/ sizeof(data[0]);
 
     for (int i = 0; i < n; i++)
     {
@@ -90,6 +90,8 @@ vector<double> decomp( vector<vector<double>> &data)
 //pi serves as representation of permutation matrix (same in decomp function ... ) 
 vector<double> solve(vector<vector<double>> &L, vector<vector<double>> &U, vector<double> p, vector<double> b)
 {
+    //input: matrix1, matrix2, permutation matrix, product of transpose of matrix1 and array of ys
+
     //"undoes" decomposition and factors in b vector
     int n = L.size();
     vector<double> y(n);
@@ -139,7 +141,14 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
 
         }
     }
-    /*vector<vector<double>> transpose (num, vector<double>(num, 0));
+    
+    vector<vector<double>> transposeAA (num, vector<double>(num, 0));
+    transposeAA = multiply(matrix, matrix);
+
+    vector<vector<double>> transposeAY (num, vector<double>(num, 0));
+
+
+    /*
     //TODO need a function that multiplies matricies together for transpose
 
     
@@ -164,7 +173,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
         }
     }
     //end of pseudocode
-*/
+    */
 }
 
 
