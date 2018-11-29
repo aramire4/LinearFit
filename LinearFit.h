@@ -164,7 +164,7 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
 
     vector<vector<double>> l (matrix);
     vector<vector<double>> u (matrix);
-    vector<double> p = decomp(matrix); //TODO-check
+    vector<double> p = decomp(matrix); //permutation of matrix
 
     for(int i = 0; i < l.size(); i++){
         for(int j = 0; j < l[0].size(); j++){
