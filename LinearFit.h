@@ -33,7 +33,7 @@ vector<vector<double>> multiply(vector<vector<double>> a, vector<vector<double>>
 }
 
 vector<vector<double>> transpose(vector<vector<double>> a){
-    vector<vector<double>> ret;
+    vector<vector<double>> ret (a.size(), vector<double>(a.size(), 0));
     for(int i = 0; i < a.size(); i++){
         for(int j = 0; j < a[0].size(); j++){
             ret[i][j] = a[j][i];
@@ -135,8 +135,8 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
     int num = data.size();
     int kprime = 0;
 
-    vector<double> fit;
-    for(int i = 0; i < num; i++) fit[i] = i;
+    //vector<double> fit;
+    //for(int i = 0; i < num; i++) fit[i] = i;
 
     vector<vector<double>> matrix (num, vector<double>(num, 0));
     vector<double> yVector (num, 0);
