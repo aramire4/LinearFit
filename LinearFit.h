@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -35,7 +36,7 @@ vector<vector<double>> transpose(vector<vector<double>> a){
     vector<vector<double>> ret;
     for(int i = 0; i < a.size(); i++){
         for(int j = 0; j < a[0].size(); j++){
-            ret[i][j] = a[j][i]
+            ret[i][j] = a[j][i];
         }
     }
     return ret;
@@ -138,21 +139,42 @@ vector<double> fitFuncs(const vector<T> &data,const vector<F> &functions){
     for(int i = 0; i < num; i++) fit[i] = i;
 
     vector<vector<double>> matrix (num, vector<double>(num, 0));
+    vector<double> yVector (num, 0);
 
     for(int i = 0; i < num; i++){
+        yVector[i] = data[i].y;
         for(int k = 0; k < functions.size(); k++){
             //Should be the matrix of data called on the functions
             F func = functions[k];
             matrix[i][k] = func(data[i].x);
-
         }
     }
     
     vector<vector<double>> t = transpose(matrix);
-    vector<vector<double>>multA = multiply(matrix, t);
+    vector<vector<double>>multA = multiply(t, matrix); //transpose(A) * A
 
+    vector<double>multY (num, 0); 
 
+    //multiply matrix and vector y
+    for(int i = 0; i < num; i++){
+        for(int j = 0; j < num;j++){
+            multY[i] += (t[i][j] * yVector[j]);
+        }
+    }
 
+    vector<vector<double>> l (matrix);
+    vector<vector<double>> u (matrix);
+    vector<double> p = decomp(matrix); //TODO-check
+
+    for(int i = 0; i < l.size(); i++){
+        for(int j = 0; j < l[0].size(); j++){
+            if(i < j) l[i][j] = 0;
+            if(i==j) l[i][j] = 1;
+            if (i > j) u[i][j] = 0;
+        }
+    }
+    
+    return (solve(l, u, p, multY));
     /*
     //TODO need a function that multiplies matricies together for transpose
 
